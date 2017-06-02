@@ -1,0 +1,11 @@
+#original-image {
+  display: none;
+}
+
+td {
+  vertical-align: top;
+}
+
+#original-map-canvas {
+  display: none;
+}

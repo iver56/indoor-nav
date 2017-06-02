@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Signal simulator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/colorbrewer.js"></script>
+</head>
+<body>
+
+<input type="file" id="file1">
+<form>
+<select id="mode-select" name="tabs" title="Select mode">
+  <option value="manage-beacons">Manage beacons</option>
+  <option value="measure-signal">Measure signal</option>
+</select>
+</form>
+<hr>
+<table>
+  <tr>
+    <td style="width: 200px">
+      <div id="beacon-view">
+
+      </div>
+    </td>
+    <td>
+      <img src="indoor1.png" id="original-image">
+      <canvas id="original-map-canvas"></canvas>
+      <canvas id="map-canvas"></canvas>
+    </td>
+  </tr>
+</table>
+
+<script src="src/beaconController.js"></script>
+<script src="src/beaconModel.js"></script>
+<script src="src/beaconView.js"></script>
+<script src="src/measureMode.js"></script>
+<script src="src/helpers.js"></script>
+<script src="src/main.js"></script>
+
+</body>
+</html>
