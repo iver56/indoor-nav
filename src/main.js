@@ -8,7 +8,6 @@ $(function() {
   var startMouseDownPos = null;
   var beaconController = new BeaconController();
   var measureController = new MeasureController();
-  var modeSelect = document.getElementById('mode-select');
   var controllers = {
     "manage-beacons": beaconController,
     "measure-signal": measureController
@@ -40,7 +39,9 @@ $(function() {
     isDragging = true;
   }, false);
   canvas.addEventListener("mouseup", function(e) {
-    var controller = controllers[modeSelect.value];
+    var selectedMode = $('input[name="modes"]:checked').val();
+    console.log(selectedMode)
+    var controller = controllers[selectedMode];
     var currentPos = relativeMouseCoords(e, canvas);
 
     if (isDragging) { // drag

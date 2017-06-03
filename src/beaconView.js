@@ -13,10 +13,13 @@ BeaconView.prototype.render = function() {
 };
 
 BeaconView.prototype.renderList = function() {
-  var $ul = $('<ul></ul>');
-  for (var beacon of this.vm.beacons) {
-    $(`<li>${beacon.position.x}, ${beacon.position.y}</li>`).appendTo($ul);
-  }
+  let $ul = $('<ul></ul>');
+  this.vm.beacons.forEach((beacon, i) => {
+    $(
+      `<li>${i}:&nbsp;${beacon.position.x},&nbsp;${beacon.position.y}</li>`
+    ).appendTo($ul);
+  });
+
   this.$wrapper.html($ul);
 };
 
@@ -30,5 +33,6 @@ BeaconView.prototype.renderOverlay = function() {
     this.ctx.beginPath();
     this.ctx.arc(beacon.position.x, beacon.position.y, 5, 0, 2 * Math.PI);
     this.ctx.fill();
+    this.ctx.stroke();
   });
 };

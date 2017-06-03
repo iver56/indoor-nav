@@ -11,10 +11,9 @@
 
 <input type="file" id="file1">
 <form>
-<select id="mode-select" name="tabs" title="Select mode">
-  <option value="manage-beacons">Manage beacons</option>
-  <option value="measure-signal">Measure signal</option>
-</select>
+  <label><input type="radio" name="modes" value="manage-beacons" checked>Manage beacons</label>
+  <label><input type="radio" name="modes" value="manage-areas" checked>Manage areas</label>
+  <label><input type="radio" name="modes" value="measure-signal">Measure signal</label>
 </form>
 <hr>
 <table>
