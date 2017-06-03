@@ -2,7 +2,7 @@ function View(beaconVm, areaVm) {
   this.beaconVm = beaconVm;
   this.areaVm = areaVm;
   this.$beaconListWrapper = $('#beacons-sidebar');
-  this.$areaListWrapper = $('#areas-sidebar');
+  this.$areaList = $('#area-list');
 
   this.originalMapCanvas = document.getElementById('original-map-canvas');
   this.canvas = document.getElementById('map-canvas');
@@ -13,9 +13,18 @@ function View(beaconVm, areaVm) {
 
 View.prototype.render = function() {
   this.resetCanvas();
-  this.renderBeaconList();
-  this.renderBeaconDots();
-  this.renderSignal();
+
+  if (selectedMode === 'beacons') {
+    $('#areas-sidebar').hide();
+    $('#beacons-sidebar').show();
+    this.renderBeaconList();
+    this.renderBeaconDots();
+    this.renderSignal();
+  } else if (selectedMode === 'areas') {
+    $('#beacons-sidebar').hide();
+    $('#areas-sidebar').show();
+    this.renderAreaList();
+  }
 };
 
 View.prototype.resetCanvas = function() {
@@ -72,4 +81,13 @@ View.prototype.renderSignal = function() {
   });
 
   this.ctx.restore();
+};
+
+View.prototype.renderAreaList = function() {
+  this.$areaList.empty();
+  this.areaVm.areas.forEach((beacon, i) => {
+    $(
+      `<li>${i}:&nbsp;${beacon.name}</li>`
+    ).appendTo(this.$areaList);
+  });
 };

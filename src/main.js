@@ -13,14 +13,13 @@ $(function() {
     "areas": areaController
   };
   let view = new View(beaconController.vm, areaController.vm);
-  let selectedMode = $('input[name="modes"]:checked').val();
+  window.selectedMode = $('input[name="modes"]:checked').val();
   let controller = controllers[selectedMode];
 
   $('input[name="modes"]').change(function() {
-    selectedMode = this.value;
+    window.selectedMode = this.value;
     controller = controllers[selectedMode];
-    $('.sidebar').hide();
-    $(`#${selectedMode}-sidebar`).show();
+    Event.fire('render');
   });
 
   img.addEventListener("load", function(e) {

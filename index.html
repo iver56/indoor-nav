@@ -15,15 +15,20 @@
 <form>
   <label><input type="radio" name="modes" value="beacons" checked>Manage beacons</label>
   <label><input type="radio" name="modes" value="areas">Manage areas</label>
-  <label><input type="radio" name="modes" value="signals">Measure signal strength</label>
 </form>
 <hr>
 <table>
   <tr>
     <td style="width: 200px">
       <div id="beacons-sidebar" class="sidebar"></div>
-      <div id="areas-sidebar" class="sidebar"></div>
-      <div id="signals-sidebar" class="sidebar"></div>
+      <div id="areas-sidebar" class="sidebar">
+        <p>Areas:</p>
+        <form onsubmit="return false;">
+          <input type="text" placeholder="name" id="new-area-name">
+          <input type="submit" id="add-area-button" value="Add area">
+        </form>
+        <ul id="area-list"></ul>
+      </div>
     </td>
     <td>
       <img src="indoor1.png" id="original-image">
@@ -36,6 +41,7 @@
 <script src="src/beaconController.js"></script>
 <script src="src/beaconModel.js"></script>
 <script src="src/areaController.js"></script>
+<script src="src/areaModel.js"></script>
 <script src="src/view.js"></script>
 <script src="src/helpers.js"></script>
 <script src="src/main.js"></script>
