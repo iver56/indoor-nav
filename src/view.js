@@ -64,7 +64,7 @@ View.prototype.renderSignal = function() {
     this.ctx.arc(
       this.beaconVm.measurementPosition.x,
       this.beaconVm.measurementPosition.y,
-      radius / 2,
+      0.5 + radius / 2,
       i * 2 * Math.PI / numBeacons,
       (i + 1) * 2 * Math.PI / numBeacons
     );

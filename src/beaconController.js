@@ -21,11 +21,17 @@ BeaconController.prototype.handleClick = function(position) {
       new Beacon(position)
     );
   }
+  this.calculateSignalStrengths(position);
 
   Event.fire('render');
 };
 
 BeaconController.prototype.handleMouseMove = function(position) {
+  this.calculateSignalStrengths(position);
+  Event.fire('render');
+};
+
+BeaconController.prototype.calculateSignalStrengths = function(position) {
   this.vm.beaconSignalStrengths = [];
   this.vm.beacons.forEach((beacon, i) => {
     let signalStrength = beacon.getRelativeSignalStrength(position);
@@ -33,6 +39,4 @@ BeaconController.prototype.handleMouseMove = function(position) {
     this.vm.beaconSignalStrengths.push(signalStrength);
   });
   this.vm.measurementPosition = position;
-
-  Event.fire('render');
 };
