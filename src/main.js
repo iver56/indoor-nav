@@ -1,28 +1,41 @@
 $(function() {
-  var originalMapCanvas = document.getElementById('original-map-canvas');
-  var canvas = document.getElementById('map-canvas');
-  var originalMapCtx = originalMapCanvas.getContext('2d');
-  var img = document.getElementById("original-image");
-  //var imgData = null;
-  var isDragging = false;
-  var startMouseDownPos = null;
-  var beaconController = new BeaconController();
-  var measureController = new MeasureController();
-  var controllers = {
-    "manage-beacons": beaconController,
-    "measure-signal": measureController
+  let originalMapCanvas = document.getElementById('original-map-canvas');
+  let canvas = document.getElementById('map-canvas');
+  let originalMapCtx = originalMapCanvas.getContext('2d');
+  let img = document.getElementById("original-image");
+  let imgData = null;
+  let isDragging = false;
+  let startMouseDownPos = null;
+  let beaconController = new BeaconController();
+  let areaController = new AreaController();
+  let signalController = new SignalController();
+  signalController.beaconVm = beaconController.vm;
+  let controllers = {
+    "beacons": beaconController,
+    "areas": areaController,
+    "signals": signalController
   };
+  let view = new View(beaconController.vm, areaController.vm, signalController.vm);
+  let selectedMode = $('input[name="modes"]:checked').val();
+  let controller = controllers[selectedMode];
+
+  $('input[name="modes"]').change(function() {
+    selectedMode = this.value;
+    controller = controllers[selectedMode];
+    $('.sidebar').hide();
+    $(`#${selectedMode}-sidebar`).show();
+  });
 
   img.addEventListener("load", function(e) {
     originalMapCanvas.width = img.width;
     originalMapCanvas.height = img.height;
     originalMapCtx.drawImage(img, 0, 0);
-    //imgData = ctx.getImageData(0, 0, originalMapCanvas.width, originalMapCanvas.height);
-    beaconController.view.render();
+    imgData = originalMapCtx.getImageData(0, 0, originalMapCanvas.width, originalMapCanvas.height);
+    Event.fire('render');
   });
 
   document.getElementById("file1").addEventListener("change", function(event) {
-    var file = event.target.files[0];
+    let file = event.target.files[0];
     if (file) {
       loadImage(file, function(result) {
         img.src = result;
@@ -37,24 +50,25 @@ $(function() {
   canvas.addEventListener("mousemove", function(e) {
     e.preventDefault();
     isDragging = true;
-  }, false);
+    if (controller.handleMouseMove) {
+      let position = relativeMouseCoords(e, canvas);
+      controller.handleMouseMove(position);
+    }
+  }.throttle(16), false);
   canvas.addEventListener("mouseup", function(e) {
-    var selectedMode = $('input[name="modes"]:checked').val();
-    console.log(selectedMode)
-    var controller = controllers[selectedMode];
-    var currentPos = relativeMouseCoords(e, canvas);
+    let position = relativeMouseCoords(e, canvas);
 
     if (isDragging) { // drag
-      var distance = euclideanDistance(startMouseDownPos, currentPos);
+      let distance = euclideanDistance(startMouseDownPos, position);
       if (distance < 3) {
         // interpret as click
-        controller.handleClick && controller.handleClick(currentPos);
+        controller.handleClick && controller.handleClick(position);
       } else {
         // drag
-        controller.handleDrag && controller.handleDrag(startMouseDownPos, currentPos);
+        controller.handleDrag && controller.handleDrag(startMouseDownPos, position);
       }
     } else { // click
-      controller.handleClick && controller.handleClick(currentPos);
+      controller.handleClick && controller.handleClick(position);
     }
   }, false);
 

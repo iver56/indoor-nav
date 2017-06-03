@@ -2,11 +2,10 @@ function BeaconController() {
   this.vm = {
     beacons: []
   };
-  this.view = new BeaconView(this.vm);
 }
 
 BeaconController.prototype.handleClick = function(position) {
-  var numBeaconsBefore = this.vm.beacons.length;
+  const numBeaconsBefore = this.vm.beacons.length;
 
   // remove any beacons close to the click position
   this.vm.beacons = this.vm.beacons.filter(
@@ -21,5 +20,5 @@ BeaconController.prototype.handleClick = function(position) {
     );
   }
 
-  this.view.render();
+  Event.fire('render');
 };

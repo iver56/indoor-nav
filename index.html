@@ -6,22 +6,24 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="lib/jquery.min.js"></script>
   <script src="lib/colorbrewer.js"></script>
+  <script src="lib/event.js"></script>
+  <script src="lib/limit.js"></script>
 </head>
 <body>
 
 <input type="file" id="file1">
 <form>
-  <label><input type="radio" name="modes" value="manage-beacons" checked>Manage beacons</label>
-  <label><input type="radio" name="modes" value="manage-areas" checked>Manage areas</label>
-  <label><input type="radio" name="modes" value="measure-signal">Measure signal</label>
+  <label><input type="radio" name="modes" value="beacons" checked>Manage beacons</label>
+  <label><input type="radio" name="modes" value="areas">Manage areas</label>
+  <label><input type="radio" name="modes" value="signals">Measure signal strength</label>
 </form>
 <hr>
 <table>
   <tr>
     <td style="width: 200px">
-      <div id="beacon-view">
-
-      </div>
+      <div id="beacons-sidebar" class="sidebar"></div>
+      <div id="areas-sidebar" class="sidebar"></div>
+      <div id="signals-sidebar" class="sidebar"></div>
     </td>
     <td>
       <img src="indoor1.png" id="original-image">
@@ -32,9 +34,10 @@
 </table>
 
 <script src="src/beaconController.js"></script>
+<script src="src/signalController.js"></script>
 <script src="src/beaconModel.js"></script>
-<script src="src/beaconView.js"></script>
-<script src="src/measureMode.js"></script>
+<script src="src/areaController.js"></script>
+<script src="src/view.js"></script>
 <script src="src/helpers.js"></script>
 <script src="src/main.js"></script>
 
