@@ -1,16 +1,27 @@
-function AreaController() {
+function AreaController(beaconController) {
+  this.beaconController = beaconController;
   this.vm = {
-    areas: []
+    areas: [],
+    selectedAreaIdx: -1
   };
   let that = this;
+  this.$nameInput = $('#new-area-name');
   $('#add-area-button').click(function() {
     that.addArea()
   });
-  this.$nameInput = $('#new-area-name');
+  $('#area-list').on('click', 'li button', function() {
+    let $li = $(this).closest('li');
+    let areaId = $li.data('id');
+    that.vm.selectedAreaIdx = parseInt(areaId);
+    Event.fire('render');
+  });
 }
 
 AreaController.prototype.addArea = function() {
   let name = this.$nameInput.val();
+  if (name.length < 2) {
+    return alert('Name is too short');
+  }
   this.$nameInput.val('');
   this.vm.areas.push(
     new Area(name)
@@ -19,5 +30,14 @@ AreaController.prototype.addArea = function() {
 };
 
 AreaController.prototype.handleClick = function(position) {
-  // TODO: Add point for selected area
+  if (this.vm.selectedAreaIdx < 0) {
+    return alert('You need to select an area before you can add points to it');
+  }
+  this.beaconController.calculateSignalStrengths(position);
+  let signalStrengths = this.beaconController.vm.beaconSignalStrengths.slice(0);
+  this.vm.areas[this.vm.selectedAreaIdx].points.push(
+    new Point(position, signalStrengths)
+  );
+
+  Event.fire('render');
 };

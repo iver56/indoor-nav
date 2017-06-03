@@ -9,3 +9,18 @@ td {
 #original-map-canvas {
   display: none;
 }
+
+ul#area-list {
+  list-style-type: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+ul#area-list li {
+  border: #ccc solid 1px;
+  padding: 5px;
+}
+
+ul#area-list li.selected {
+  background-color: #E8F1FF;
+}

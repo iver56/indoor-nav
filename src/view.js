@@ -24,6 +24,7 @@ View.prototype.render = function() {
     $('#beacons-sidebar').hide();
     $('#areas-sidebar').show();
     this.renderAreaList();
+    this.renderAreaPoints();
   }
 };
 
@@ -85,9 +86,33 @@ View.prototype.renderSignal = function() {
 
 View.prototype.renderAreaList = function() {
   this.$areaList.empty();
-  this.areaVm.areas.forEach((beacon, i) => {
-    $(
-      `<li>${i}:&nbsp;${beacon.name}</li>`
-    ).appendTo(this.$areaList);
+  this.areaVm.areas.forEach((area, i) => {
+    let $li = $(
+      `
+      <li data-id="${i}">
+        ${i}:&nbsp;${area.name}
+      </li>
+      `
+    );
+    if (this.areaVm.selectedAreaIdx === i) {
+      $li.addClass('selected');
+      $li.append('<button disabled>Selected</button>')
+    } else {
+      $li.append('<button>Select</button>')
+    }
+    $li.appendTo(this.$areaList);
+  });
+};
+
+View.prototype.renderAreaPoints = function() {
+  let that = this;
+  if (this.areaVm.selectedAreaIdx < 0) {
+    return;
+  }
+  this.areaVm.areas[this.areaVm.selectedAreaIdx].points.forEach((point, i) => {
+    this.ctx.fillStyle = 'red';
+    this.ctx.beginPath();
+    this.ctx.arc(point.position.x, point.position.y, 4, 0, 2 * Math.PI);
+    this.ctx.fill();
   });
 };

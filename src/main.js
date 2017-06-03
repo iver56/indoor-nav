@@ -7,7 +7,7 @@ $(function() {
   let isDragging = false;
   let startMouseDownPos = null;
   let beaconController = new BeaconController();
-  let areaController = new AreaController();
+  let areaController = new AreaController(beaconController);
   let controllers = {
     "beacons": beaconController,
     "areas": areaController
