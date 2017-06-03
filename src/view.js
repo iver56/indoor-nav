@@ -1,7 +1,6 @@
-function View(beaconVm, areaVm, signalVm) {
+function View(beaconVm, areaVm) {
   this.beaconVm = beaconVm;
   this.areaVm = areaVm;
-  this.signalVm = signalVm;
   this.$beaconListWrapper = $('#beacons-sidebar');
   this.$areaListWrapper = $('#areas-sidebar');
 
@@ -52,8 +51,8 @@ View.prototype.renderSignal = function() {
   this.ctx.save();
   this.ctx.globalAlpha = 0.4;
 
-  const numBeacons = this.signalVm.beaconSignalStrengths.length;
-  this.signalVm.beaconSignalStrengths.forEach((signalStrength, i) => {
+  const numBeacons = this.beaconVm.beaconSignalStrengths.length;
+  this.beaconVm.beaconSignalStrengths.forEach((signalStrength, i) => {
     let radius = Math.min(
       9001 * Math.pow(10, signalStrength / 20),
       100
@@ -63,8 +62,8 @@ View.prototype.renderSignal = function() {
     this.ctx.lineWidth = radius;
     this.ctx.beginPath();
     this.ctx.arc(
-      this.signalVm.measurementPosition.x,
-      this.signalVm.measurementPosition.y,
+      this.beaconVm.measurementPosition.x,
+      this.beaconVm.measurementPosition.y,
       radius / 2,
       i * 2 * Math.PI / numBeacons,
       (i + 1) * 2 * Math.PI / numBeacons

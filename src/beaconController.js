@@ -1,6 +1,8 @@
 function BeaconController() {
   this.vm = {
-    beacons: []
+    beacons: [],
+    beaconSignalStrengths: [],
+    measurementPosition: {x: 0, y: 0}
   };
 }
 
@@ -19,6 +21,18 @@ BeaconController.prototype.handleClick = function(position) {
       new Beacon(position)
     );
   }
+
+  Event.fire('render');
+};
+
+BeaconController.prototype.handleMouseMove = function(position) {
+  this.vm.beaconSignalStrengths = [];
+  this.vm.beacons.forEach((beacon, i) => {
+    let signalStrength = beacon.getRelativeSignalStrength(position);
+
+    this.vm.beaconSignalStrengths.push(signalStrength);
+  });
+  this.vm.measurementPosition = position;
 
   Event.fire('render');
 };

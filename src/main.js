@@ -8,14 +8,11 @@ $(function() {
   let startMouseDownPos = null;
   let beaconController = new BeaconController();
   let areaController = new AreaController();
-  let signalController = new SignalController();
-  signalController.beaconVm = beaconController.vm;
   let controllers = {
     "beacons": beaconController,
-    "areas": areaController,
-    "signals": signalController
+    "areas": areaController
   };
-  let view = new View(beaconController.vm, areaController.vm, signalController.vm);
+  let view = new View(beaconController.vm, areaController.vm);
   let selectedMode = $('input[name="modes"]:checked').val();
   let controller = controllers[selectedMode];
 
