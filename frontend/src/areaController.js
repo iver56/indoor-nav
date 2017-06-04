@@ -57,6 +57,6 @@ AreaController.prototype.downloadDataset = function() {
     });
   });
 
-  let blob = new Blob([JSON.stringify(jsonObj)], {type: "text/json;charset=utf-8"});
+  let blob = new Blob([JSON.stringify(jsonObj)], {type: "application/json;charset=utf-8"});
   saveAs(blob, "beacon-dataset.json");
 };
