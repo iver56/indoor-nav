@@ -36,11 +36,22 @@ AreaController.prototype.handleClick = function(position) {
   if (this.vm.selectedAreaIdx < 0) {
     return alert('You need to select an area before you can add points to it');
   }
-  this.beaconController.calculateSignalStrengths(position);
-  let signalStrengths = this.beaconController.vm.beaconSignalStrengths.slice(0);
-  this.vm.areas[this.vm.selectedAreaIdx].points.push(
-    new Point(position, signalStrengths)
+
+  let area = this.vm.areas[this.vm.selectedAreaIdx];
+  const numPointsBefore = area.points.length;
+
+  // remove any points close to the click position
+  area.points = area.points.filter(
+    point => euclideanDistance(point.position, position) > 4
   );
+  if (area.points.length < numPointsBefore) {
+    // click action was a remove action
+  } else {
+    // click action was an add action
+    area.points.push(
+      new Point(position, null)
+    );
+  }
 
   Event.fire('render');
 };
