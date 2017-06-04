@@ -1,9 +1,9 @@
 $(function() {
-  let originalMapCanvas = document.getElementById('original-map-canvas');
+  window.originalMapCanvas = document.getElementById('original-map-canvas');
   let canvas = document.getElementById('map-canvas');
   let originalMapCtx = originalMapCanvas.getContext('2d');
   let img = document.getElementById("original-image");
-  let imgData = null;
+  window.imgData = null;
   let isDragging = false;
   let startMouseDownPos = null;
   let beaconController = new BeaconController();
@@ -26,7 +26,7 @@ $(function() {
     originalMapCanvas.width = img.width;
     originalMapCanvas.height = img.height;
     originalMapCtx.drawImage(img, 0, 0);
-    imgData = originalMapCtx.getImageData(0, 0, originalMapCanvas.width, originalMapCanvas.height);
+    window.imgData = originalMapCtx.getImageData(0, 0, originalMapCanvas.width, originalMapCanvas.height);
     Event.fire('render');
   });
 
