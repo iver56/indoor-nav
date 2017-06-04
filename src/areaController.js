@@ -15,6 +15,9 @@ function AreaController(beaconController) {
     that.vm.selectedAreaIdx = parseInt(areaId);
     Event.fire('render');
   });
+  $('#download-dataset').click(function() {
+    that.downloadDataset()
+  });
 }
 
 AreaController.prototype.addArea = function() {
@@ -40,4 +43,20 @@ AreaController.prototype.handleClick = function(position) {
   );
 
   Event.fire('render');
+};
+
+AreaController.prototype.downloadDataset = function() {
+  let jsonObj = {x: [], y: []};
+
+  this.vm.areas.forEach((area, i) => {
+    area.points.forEach((point, j) => {
+      this.beaconController.calculateSignalStrengths(point.position);
+      point.signalStrengths = this.beaconController.vm.beaconSignalStrengths.slice(0);
+      jsonObj.x.push(point.signalStrengths);
+      jsonObj.y.push(i);
+    });
+  });
+
+  let blob = new Blob([JSON.stringify(jsonObj)], {type: "text/json;charset=utf-8"});
+  saveAs(blob, "beacon-dataset.json");
 };

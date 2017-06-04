@@ -24,3 +24,7 @@ ul#area-list li {
 ul#area-list li.selected {
   background-color: #E8F1FF;
 }
+
+button#download-dataset {
+  margin-top: 15px;
+}
