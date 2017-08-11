@@ -3,6 +3,7 @@ function View(beaconVm, areaVm) {
   this.areaVm = areaVm;
   this.$beaconListWrapper = $('#beacons-sidebar');
   this.$areaList = $('#area-list');
+  this.$codeArea = $('#code-area');
 
   this.originalMapCanvas = document.getElementById('original-map-canvas');
   this.canvas = document.getElementById('map-canvas');
@@ -20,6 +21,7 @@ View.prototype.render = function() {
     this.renderBeaconList();
     this.renderBeaconDots();
     this.renderSignal();
+    this.renderSignalStrengthsArray();
   } else if (selectedMode === 'areas') {
     $('#beacons-sidebar').hide();
     $('#areas-sidebar').show();
@@ -34,13 +36,20 @@ View.prototype.resetCanvas = function() {
   this.ctx.drawImage(this.originalMapCanvas, 0, 0);
 };
 
+View.prototype.getBeaconColor = function(i) {
+  return colorbrewer.Set1[8][i % 8];
+};
+
 View.prototype.renderBeaconList = function() {
   let $ul = $('<ul></ul>');
-  this.beaconVm.beacons.forEach((beacon, i) => {
-    $(
-      `<li>${i}:&nbsp;${beacon.position.x},&nbsp;${beacon.position.y}</li>`
-    ).appendTo($ul);
-  });
+  this.beaconVm.beacons.forEach(
+    (beacon, i) => {
+      let color = this.getBeaconColor(i);
+      $(
+        `<li style="text-shadow: 0 0 3px ${color}">${i}:&nbsp;${beacon.position.x},&nbsp;${beacon.position.y}</li>`
+      ).appendTo($ul);
+    }
+  );
   this.$beaconListWrapper.empty().append(
     $('<p>Beacons:</p>')
   ).append($ul);
@@ -68,7 +77,7 @@ View.prototype.renderSignal = function() {
       100
     );
 
-    this.ctx.strokeStyle = colorbrewer.Set1[8][i % 8];
+    this.ctx.strokeStyle = this.getBeaconColor(i);
     this.ctx.lineWidth = radius;
     this.ctx.beginPath();
     this.ctx.arc(
@@ -82,6 +91,16 @@ View.prototype.renderSignal = function() {
   });
 
   this.ctx.restore();
+};
+
+View.prototype.renderSignalStrengthsArray = function() {
+  let s = '[';
+  this.beaconVm.beaconSignalStrengths.forEach((signalStrength, i) => {
+    let color = this.getBeaconColor(i);
+    s += `\n   <span style="text-shadow: 0 0 3px ${color}">${signalStrength.toFixed(1)}</span>,`;
+  });
+  s += '\n]';
+  this.$codeArea.html(s);
 };
 
 View.prototype.renderAreaList = function() {
