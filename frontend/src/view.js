@@ -17,13 +17,15 @@ View.prototype.render = function() {
 
   if (selectedMode === 'beacons') {
     $('#areas-sidebar').hide();
-    $('#beacons-sidebar').show();
+    this.$beaconListWrapper.show();
+    this.$codeArea.show();
     this.renderBeaconList();
     this.renderBeaconDots();
     this.renderSignal();
     this.renderSignalStrengthsArray();
   } else if (selectedMode === 'areas') {
-    $('#beacons-sidebar').hide();
+    this.$beaconListWrapper.hide();
+    this.$codeArea.hide();
     $('#areas-sidebar').show();
     this.renderAreaList();
     this.renderAreaPoints();
