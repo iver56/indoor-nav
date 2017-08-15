@@ -3,6 +3,8 @@ $(function() {
   let canvas = document.getElementById('map-canvas');
   let originalMapCtx = originalMapCanvas.getContext('2d');
   let img = document.getElementById("original-image");
+  img.src = getDefaultImage();
+  img.crossOrigin = "Anonymous";
   window.imgData = null;
   let isDragging = false;
   let startMouseDownPos = null;

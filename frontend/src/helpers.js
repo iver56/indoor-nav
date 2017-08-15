@@ -47,6 +47,10 @@ function loadImage(file, callback) {
   };
 }
 
+function getDefaultImage() {
+    return window.defaultImage;
+}
+
 function rgbToGreyValue(rgb) {
   return 0.3 * rgb[0] + 0.59 * rgb[1] + 0.11 * rgb[2];
 }
